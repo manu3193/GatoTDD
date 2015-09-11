@@ -18,108 +18,105 @@
 //AdditionalComments:
 //
 //////////////////////////////////////////////////////////////////////////////////
+
 module VGA_Controlador(
-	input wire _clk_, _reset_,
-	output wire hsync, vsync, video_encendido, p_tick,
-	output wire[9:0] pixel_x, pixel_y
-	);
-//constantdeclaration
-//VGA640_by_480syncparameters
-
-localparam HD=640;      //horizontal display  area
-localparam HF=48;       //h.front (left) border
-localparam HB=16;       //h.back (right) border
-localparam HR=96;       //h.retrace
-localparam VD=480;     //vertical display area
-localparam VF=10;      //v.front (top) border
-localparam VB=33;      //v.back (bottom) border
-localparam VR=2;      //v.retrace
+input wire _clk_,
+input wire _reset_,
+output reg hsync,
+output reg vsync,
+output reg [10:0] PixelX,
+output reg [10:0] PixelY,
+output reg video_encendido
+    );
 
 
-//mod_2 counter
-reg mod2_reg;
-wire mod2_next;
+parameter TotalHorizontalPixels = 11'd800;
+parameter HorizontalSyncWidth = 11'd96;
+parameter VerticalSyncWidth = 11'd2;
 
-//sync counters
-reg[9:0] h_count_reg, h_count_next;
-reg[9:0] v_count_reg, v_count_next;
+parameter TotalVerticalLines = 11'd525;
+parameter HorizontalBackPorchTime = 11'd144 ;
+parameter HorizontalFrontPorchTime = 11'd784 ;
+parameter VerticalBackPorchTime = 11'd12 ;
+parameter VerticalFrontPorchTime = 11'd492;
 
-//output buffer
-reg v_sync_reg, h_sync_reg;
-wire v_sync_next, h_sync_next;
+reg VerticalSyncEnable;
 
-//status signal
-wire h_end, v_end, pixel_tick;
+reg [10:0] HorizontalCounter;
+reg [10:0] VerticalCounter;
 
-//body
-//registers
-
-always @(posedge _clk_ , posedge _reset_)
-	if(_reset_) begin
-		mod2_reg<= 1'b0;
-		v_count_reg<= 0;
-		h_count_reg<= 0;
-		v_sync_reg<= 1'b0;
-		h_sync_reg<= 1'b0;
-	end
-	else begin
-		mod2_reg<=mod2_next;
-		v_count_reg<=v_count_next;
-		h_count_reg<=h_count_next;
-		v_sync_reg<=v_sync_next;
-		h_sync_reg<=h_sync_next;
-	end
-	
-	//mod_2 circuit to generate 25MHz enable tick
-	assign mod2_next= ~mod2_reg;
-	assign pixel_tick= mod2_reg;
-
-
-	//status signals
-	//end of horizontal counter (799)
-
-	assign h_end =(h_count_reg ==(HD+HF+HB+HR-1));
-	
-	//end of vertical counter (524)
-	assign v_end =(v_count_reg==(VD+VF+VB+VR-1));
-
-	//next_state logic of mod_800 horizontal sync counter
-	always @* 
-		if(pixel_tick) //25MHz pulse
-			if(h_end)
-				h_count_next = 0;
+//Counter for the horizontal sync signal
+always @(posedge _clk_ or posedge _reset_)
+begin
+	if(_reset_ == 1)
+		HorizontalCounter <= 0;
+	else
+		begin
+			if(HorizontalCounter == TotalHorizontalPixels - 1)
+				begin //the counter has hreached the end of a horizontal line
+					HorizontalCounter<=0;
+					VerticalSyncEnable <= 1;
+				end
 			else
-				h_count_next = h_count_reg + 1;
-		else
-			h_count_next =  h_count_reg;
+				begin 
+					HorizontalCounter<=HorizontalCounter+1; 
+					VerticalSyncEnable <=0;
+				end
+		end
+end
 
-	//next_state logic of mod_525 vertical sync counter
-	always @*
-		if(pixel_tick & h_end)
-			if(v_end)
-				v_count_next = 0;
-			else
-				v_count_next = v_count_reg + 1;
-		else
-			v_count_next = v_count_reg;
+//Generate the hsync pulse
+//Horizontal Sync is low when HorizontalCounter is 0-127
 
-	//horizontal and vertical sync, buffered to avoid glitch
-	//h_svnc_next asserted between 656 and 751
-	assign h_sync_next = (h_count_reg >= (HD+HB) && 
-								h_count_reg <= (HD+HB+HR-1));
+always @(*)
+begin
+	if((HorizontalCounter<HorizontalSyncWidth))
+		hsync = 1;
+	else
+		hsync = 0;
+end
 
-	//vh_sync_next asserted between 490 and 491
-	assign v_sync_next = (v_count_reg>=(VD+VB)&&
-								 v_count_reg<=(VD+VB+VR-1));
+//Counter for the vertical sync
 
-	//video on/off
-	assign video_encendido = (h_count_reg<HD) && (v_count_reg<VD);
-	
-	//output
-	assign hsync = h_sync_reg;
-	assign vsync = v_sync_reg;
-	assign pixel_x = h_count_reg;
-	assign pixel_y = v_count_reg;
-	assign p_tick = pixel_tick;
-	
+always @(posedge _clk_ or posedge _reset_)
+begin
+	if(_reset_ == 1)
+		VerticalCounter<=0;
+	else
+	begin
+		if(VerticalSyncEnable == 1)
+			begin
+				if(VerticalCounter==TotalVerticalLines-1)
+					VerticalCounter<=0;
+				else
+					VerticalCounter<=VerticalCounter+1;
+			end
+	end
+end
+
+//generate the vsync pulse
+always @(*)
+begin
+	if(VerticalCounter < VerticalSyncWidth)
+		vsync = 1;
+	else
+		vsync = 0;
+end
+
+always @(posedge _clk_)
+begin
+	if((HorizontalCounter<HorizontalFrontPorchTime) && (HorizontalCounter>HorizontalBackPorchTime) && (VerticalCounter<VerticalFrontPorchTime) && (VerticalCounter>VerticalBackPorchTime))
+		begin
+			video_encendido <= 1;
+			PixelX<= HorizontalCounter - HorizontalBackPorchTime;
+			PixelY<= VerticalCounter - VerticalBackPorchTime;
+		end
+	else
+		begin
+			video_encendido <= 0;
+			PixelX<=0;
+			PixelY<=0;
+		end
+end
+
 endmodule
