@@ -1,5 +1,23 @@
 `timescale 1ns / 1ps
-
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date:    14:09:05 09/14/2015 
+// Design Name: 
+// Module Name:    Controlador_Gato 
+// Project Name: 
+// Target Devices: 
+// Tool versions: 
+// Description: 
+//
+// Dependencies: 
+//
+// Revision: 
+// Revision 0.01 - File Created
+// Additional Comments: 
+//
+//////////////////////////////////////////////////////////////////////////////////
 module Controlador_Gato(
 	clk,
 	reset_all,
@@ -18,10 +36,9 @@ module Controlador_Gato(
 	
 	turno_p1_wire, turno_p2_wire,
 	
-	win_game, //Gana Jugador 2
-	loss_game, //Gana Jugador 1
-	tie_game //Juego empatado
-	
+	win_game_wire, //Gana Jugador 2
+	loss_game_wire, //Gana Jugador 1
+	tie_game_wire //Juego empatado
    );
 	
 	input clk, reset_all, reset_game;
@@ -34,7 +51,7 @@ module Controlador_Gato(
 	
 	output turno_p1_wire, turno_p2_wire;
 	
-	output win_game, loss_game, tie_game;
+	output win_game_wire, loss_game_wire, tie_game_wire;
 	
 	wire p1_mm_wire, p2_mm_wire;
 	
@@ -91,9 +108,9 @@ module Controlador_Gato(
 		.turno_p1 (turno_p1_wire),
 		.turno_p2 (turno_p2_wire),
 		
-		.win_game (win_game),
-		.loss_game (loss_game),
-		.tie_game (tie_game)
+		.win_game (win_game_wire),
+		.loss_game (loss_game_wire),
+		.tie_game (tie_game_wire)
 	);
 	
 	Registro_Juego registro (
