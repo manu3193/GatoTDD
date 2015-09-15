@@ -1,0 +1,5 @@
+NET "boton_arriba_reg" LOC = A8;
+NET "boton_abajo_reg" LOC = C9;
+NET "boton_izq_reg" LOC = C4;
+NET "boton_der_reg" LOC = D9; 
+NET "boton_elige_reg" LOC = B8;
