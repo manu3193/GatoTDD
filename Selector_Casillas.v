@@ -46,19 +46,19 @@ module Selector_Casillas(
 		begin
 			if (cuadro >= 4'b0001 & cuadro <= 4'b1001)
 				begin
-					if (boton_abajo == 1'b1)
+					if (boton_abajo == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
 						cuadro <= cuadro - 4'b0011;
 						
-					else if (boton_arriba == 1'b1)
+					else if (boton_arriba == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
 						cuadro <= cuadro + 4'b0011;
 						
-					else if (boton_izq == 1'b1)
+					else if (boton_izq == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
 						cuadro <= cuadro - 4'b0001;
 						
-					else if (boton_der == 1'b1)
+					else if (boton_der == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
 						cuadro <= cuadro + 4'b0001;
 						
-					else if (boton_elige == 1'b1)
+					else if (boton_elige == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
 						begin
 						if (turno_p1 == 1'b1 & turno_p2 == 1'b0)
 							begin
