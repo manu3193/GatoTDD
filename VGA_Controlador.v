@@ -1,23 +1,5 @@
 `timescale 1ns/1ps
-//////////////////////////////////////////////////////////////////////////////////
-//Company:
-//Engineer:
-//
-//CreateDate:11:43:5709/09/2015
-//DesignName:
-//ModuleName:VGA_Controlador
-//ProjectName:
-//TargetDevices:
-//Toolversions:
-//Description:
-//
-//Dependencies:
-//
-//Revision:
-//Revision0.01_FileCreated
-//AdditionalComments:
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 
 module VGA_Controlador(
 input wire _clk_,

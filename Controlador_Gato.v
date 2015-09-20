@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    14:09:05 09/14/2015 
-// Design Name: 
-// Module Name:    Controlador_Gato 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module Controlador_Gato(
 	clk,
 	reset_all,
@@ -32,13 +14,23 @@ module Controlador_Gato(
 	
 	state,
 	
-	//boton_arriba_reg, boton_abajo_reg, boton_izq_reg, boton_der_reg, boton_elige_reg,
+	boton_arriba_reg, boton_abajo_reg, boton_izq_reg, boton_der_reg, boton_elige_reg,
 	
 	turno_p1_wire, turno_p2_wire,
 	
 	win_game_wire, //Gana Jugador 2
 	loss_game_wire, //Gana Jugador 1
-	tie_game_wire //Juego empatado
+	tie_game_wire, //Juego empatado
+	
+	c1_out_registro,
+	c2_out_registro,
+   c3_out_registro,
+	c4_out_registro,
+	c5_out_registro,
+	c6_our_registro,
+	c7_out_registro,
+	c8_out_registro,
+	c9_out_registro
    );
 	
 	input clk, reset_all, reset_game;
@@ -61,8 +53,8 @@ module Controlador_Gato(
 	
 	wire verifica_status_wire;
 	
-	reg boton_arriba_reg, boton_abajo_reg, boton_izq_reg, boton_der_reg, boton_elige_reg;
-	//input boton_arriba_reg, boton_abajo_reg, boton_izq_reg, boton_der_reg, boton_elige_reg;
+   //reg boton_arriba_reg, boton_abajo_reg, boton_izq_reg, boton_der_reg, boton_elige_reg;
+	input boton_arriba_reg, boton_abajo_reg, boton_izq_reg, boton_der_reg, boton_elige_reg;
 	
 	wire [1:0] 
 	     c1_in_registro,
@@ -75,7 +67,7 @@ module Controlador_Gato(
 		  c8_in_registro,
 		  c9_in_registro;
 		  
-	wire [1:0] 
+	output [1:0] 
 	     c1_out_registro,
 		  c2_out_registro,
 		  c3_out_registro,
