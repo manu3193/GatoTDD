@@ -6,8 +6,6 @@ module Controlador_Gato(
 	reset_game,
 	
 	cuadro,
-	circulo, 
-	equis,
 	vertical,
 	horizontal, 
 	cruzada,
@@ -27,7 +25,7 @@ module Controlador_Gato(
    c3_out_registro,
 	c4_out_registro,
 	c5_out_registro,
-	c6_our_registro,
+	c6_out_registro,
 	c7_out_registro,
 	c8_out_registro,
 	c9_out_registro
@@ -37,7 +35,7 @@ module Controlador_Gato(
 	
 	output [2:0] state;
 	
-	output [3:0] cuadro, circulo, equis;
+	output [3:0] cuadro;
 	
 	output [1:0] vertical, horizontal, cruzada;
 	
@@ -73,7 +71,7 @@ module Controlador_Gato(
 		  c3_out_registro,
 		  c4_out_registro,
 		  c5_out_registro,
-		  c6_our_registro,
+		  c6_out_registro,
 		  c7_out_registro,
 		  c8_out_registro,
 		  c9_out_registro;
@@ -165,9 +163,7 @@ module Controlador_Gato(
 		.p1_mm (p1_mm_wire),
 		.p2_mm (p2_mm_wire),
 		
-		.cuadro (cuadro),
-		.circulo (circulo),
-		.equis (equis)
+		.cuadro (cuadro)
 	);
 	
 	Verificador_gato verificador (

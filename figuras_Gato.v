@@ -20,14 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 module figuras_Gato(
 	input wire video_mostrar, 
-	input wire [3:0] entrada,
+	input wire [3:0] selector_entrada,
+	input wire [2:0] c1_in,c2_in,c3_in,c4_in,c5_in,c6_in,c7_in,c8_in,c9_in,
 	input wire [9:0] pixel_x, pixel_y,
 	output reg [2:0] salida_rgb
     );
 	 
 	 
 	 
-	 //Asigna un numero a cada cuadrante
+	 //Asigna un numero a cada cuadrante o casilla
 	 //          |          |            // 
 	 //          |          |            // 
 	 //     1    |     2    |     3      // 
@@ -56,7 +57,6 @@ module figuras_Gato(
 	 localparam cuadrante9 = 4'd9;
 	 
 	 reg [3:0] cuadranteActual;
-	 reg [3:0] cuadranteEquis;
 	
 	//Color de las lineas del gato
 	reg [2:0] lineaGato_rgb=3'b000;
@@ -147,7 +147,7 @@ module figuras_Gato(
 
 	always @ (*) begin
 		
-		cuadranteActual= entrada;
+		cuadranteActual= selector_entrada;
 	
 		case(cuadranteActual) 
 		
@@ -404,7 +404,7 @@ module figuras_Gato(
 	
 	always @ (*) begin
 	
-		temp1 = entrada;
+		//temp1 = entrada;
 		
 		case(temp1)
 			cuadrante1: begin

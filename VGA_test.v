@@ -49,7 +49,7 @@ module VGA_test(
 	//Se inicializa el generador de graficos
 	figuras_Gato graficos(
 	.video_mostrar(video_on),
-	.entrada(sw),
+	.selector_entrada(sw),
 	.pixel_x(pix_x),
 	.pixel_y(pix_y),
 	.salida_rgb(rgb)

@@ -1,0 +1,13 @@
+NET clk LOC = V10;
+NET reset_all LOC = T10;
+NET reset_game LOC =T9;
+NET boton_arriba LOC = A8 ;
+NET boton_abajo LOC = C9 ;
+NET boton_izq LOC =  C4;
+NET boton_der LOC =  D9;
+NET boton_elige LOC =  B8;
+NET hsync LOC = N6;
+NET vsync LOC = P7;
+NET rgb[0] LOC = V7;
+NET rgb[1] LOC = T6;
+NET rgb[2] LOC = R7;
