@@ -1,0 +1,11 @@
+NET _clk_in LOC = V10;
+NET Botones_in[0] LOC = A8 ;
+NET Botones_in[1] LOC = C9 ;
+NET Botones_in[2] LOC =  C4;
+NET Botones_in[3] LOC =  D9;
+NET Botones_in[4] LOC =  B8;
+NET Botones_out[0] LOC = T11 ;
+NET Botones_out[1] LOC = R11 ;
+NET Botones_out[2] LOC =  N11;
+NET Botones_out[3] LOC =  M11;
+NET Botones_out[4] LOC =  V15;

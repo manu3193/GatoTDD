@@ -103,6 +103,33 @@ module Controlador_Gato(
 		.tie_game (tie_game_wire)
 	);
 	
+	Selector_Casillas selector (
+	
+		.boton_arriba (boton_arriba_reg),
+		.boton_abajo (boton_abajo_reg),
+		.boton_izq (boton_izq_reg),
+		.boton_der (boton_der_reg),
+		.boton_elige (boton_elige_reg),
+		
+		.turno_p1 (turno_p1_wire),
+		.turno_p2 (turno_p2_wire),
+		
+		.guarda_c1 (c1_in_registro),
+		.guarda_c2 (c2_in_registro),
+		.guarda_c3 (c3_in_registro),
+		.guarda_c4 (c4_in_registro),
+		.guarda_c5 (c5_in_registro),
+		.guarda_c6 (c6_in_registro),
+		.guarda_c7 (c7_in_registro),
+		.guarda_c8 (c8_in_registro),
+		.guarda_c9 (c9_in_registro),
+		
+		.p1_mm (p1_mm_wire),
+		.p2_mm (p2_mm_wire),
+		
+		.cuadro (cuadro)
+	);
+	
 	Registro_Juego registro (
 		
 		.clk (clk),
@@ -139,32 +166,6 @@ module Controlador_Gato(
 		.c9_out (c9_out_registro)	
 	);
 	
-	Selector_Casillas selector (
-	
-		.boton_arriba (boton_arriba_reg),
-		.boton_abajo (boton_abajo_reg),
-		.boton_izq (boton_izq_reg),
-		.boton_der (boton_der_reg),
-		.boton_elige (boton_elige_reg),
-		
-		.turno_p1 (turno_p1_wire),
-		.turno_p2 (turno_p2_wire),
-		
-		.guarda_c1 (c1_in_registro),
-		.guarda_c2 (c2_in_registro),
-		.guarda_c3 (c3_in_registro),
-		.guarda_c4 (c4_in_registro),
-		.guarda_c5 (c5_in_registro),
-		.guarda_c6 (c6_in_registro),
-		.guarda_c7 (c7_in_registro),
-		.guarda_c8 (c8_in_registro),
-		.guarda_c9 (c9_in_registro),
-		
-		.p1_mm (p1_mm_wire),
-		.p2_mm (p2_mm_wire),
-		
-		.cuadro (cuadro)
-	);
 	
 	Verificador_gato verificador (
 	
