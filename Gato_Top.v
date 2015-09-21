@@ -27,7 +27,8 @@ module Gato_Top(
 	input boton_der,
 	input boton_elige,
 	output  hsync,vsync,    //Salidas VGA
-	output  [2:0] rgb       //Salidas VGA
+	output  [2:0] rg       //Salidas VGA
+	//output [3:0] cuadro
     );
 	 
 	 //Reloj del sincronizador, FSM y demas modulos
