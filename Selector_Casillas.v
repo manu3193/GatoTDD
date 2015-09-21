@@ -44,10 +44,10 @@ module Selector_Casillas(
 			if (cuadro >= 4'b0001 & cuadro <= 4'b1001)
 				begin
 					if (boton_abajo == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
-						cuadro <= cuadro - 4'b0011;
+						cuadro <= cuadro + 4'b0011;
 						
 					if (boton_arriba == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
-						cuadro <= cuadro + 4'b0011;
+						cuadro <= cuadro - 4'b0011;
 						
 					if (boton_izq == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
 						cuadro <= cuadro - 4'b0001;
