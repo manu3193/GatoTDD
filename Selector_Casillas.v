@@ -39,7 +39,7 @@ module Selector_Casillas(
 	
 	initial cuadro <= 4'b0101;
 	
-	always @(boton_elige, boton_arriba, boton_abajo, boton_izq, boton_der)
+	always @(posedge boton_elige, posedge boton_arriba, posedge boton_abajo, posedge boton_izq, posedge boton_der)
 		begin
 			if (cuadro >= 4'b0001 & cuadro <= 4'b1001)
 				begin
