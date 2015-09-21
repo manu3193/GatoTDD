@@ -104,7 +104,7 @@ module Controlador_Gato(
 	);
 	
 	Selector_Casillas selector (
-	
+		.clk (clk),
 		.boton_arriba (boton_arriba_reg),
 		.boton_abajo (boton_abajo_reg),
 		.boton_izq (boton_izq_reg),
