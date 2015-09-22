@@ -1,7 +1,7 @@
-NET "sw[3]" LOC = T5;
-NET "sw[2]" LOC = v8;
-NET "sw[1]" LOC = U8;
-NET "sw[0]" LOC = N8;
+NET "casilla2[1]" LOC = T5;
+NET "casilla2[0]" LOC = V8;
+NET "casilla1[1]" LOC = M8;
+NET "casilla1[0]" LOC = V9;
 NET "clk" LOC = V10;
 NET "reset" LOC = B8;
 NET "hsync" LOC = N6;

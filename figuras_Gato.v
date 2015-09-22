@@ -21,6 +21,7 @@
 module figuras_Gato(
 	input wire video_mostrar, 
 	input wire [3:0] selector_entrada,
+	input wire [1:0] linea_h, linea_v, linea_c,
 	input wire [2:0] c1_in,c2_in,c3_in,c4_in,c5_in,c6_in,c7_in,c8_in,c9_in,
 	input wire [9:0] pixel_x, pixel_y,
 	output reg [2:0] salida_rgb
@@ -336,7 +337,7 @@ module figuras_Gato(
 
 	always @ (*) begin
 		
-		//cuadranteActual= selector_entrada;
+		cuadranteActual= selector_entrada;
 	
 		case(cuadranteActual) 
 		
@@ -434,6 +435,7 @@ module figuras_Gato(
 		endcase
 	end
 	
+	/*
 	//-------------------------------------
 	//Determina en qué cuadrante mostrar la equis
 	//según señal de entrada desde la FSM
@@ -536,6 +538,8 @@ module figuras_Gato(
 		
 	end
 	
+	*/
+	
 	
 	//-------------------------------------
 	//Determina la forma de un círculo
@@ -552,27 +556,27 @@ module figuras_Gato(
 			4'd1:
 				rom_circulo_data = 18'b000000000000000000;
 			4'd2:
-				rom_circulo_data = 18'b000011111110000000;
+				rom_circulo_data = 18'b000000111111100000;
 			4'd3:
-				rom_circulo_data = 18'b000100000001000000;
+				rom_circulo_data = 18'b000001000000010000;
 			4'd4:
-				rom_circulo_data = 18'b011000000000110000;
+				rom_circulo_data = 18'b000110000000001100;
 			4'd5:
-				rom_circulo_data = 18'b010000000000010000;
+				rom_circulo_data = 18'b000100000000000100;
 			4'd6:
-				rom_circulo_data = 18'b100000000000001000;
+				rom_circulo_data = 18'b001000000000000010;
 			4'd7:
-				rom_circulo_data = 18'b100000000000001000;
+				rom_circulo_data = 18'b001000000000000010;
 			4'd8:
-				rom_circulo_data = 18'b100000000000001000;
+				rom_circulo_data = 18'b001000000000000010;
 			4'd9:
-				rom_circulo_data = 18'b010000000000010000;
+				rom_circulo_data = 18'b000100000000000100;
 			4'd10:
-				rom_circulo_data = 18'b011000000000110000;
+				rom_circulo_data = 18'b000110000000001100;
 			4'd11:
-				rom_circulo_data = 18'b000100000001000000;
+				rom_circulo_data = 18'b000001000000010000;
 			4'd12:
-				rom_circulo_data = 18'b000011111110000000;
+				rom_circulo_data = 18'b000000111111100000;
 			4'd13:
 				rom_circulo_data = 18'b000000000000000000;
 			4'd14:
@@ -581,6 +585,7 @@ module figuras_Gato(
 		endcase
 	end
 	
+	/*
 	//-------------------------------------
 	//Determina en qué cuadrante mostrar el círculo
 	//según señal de entrada desde la FSM
@@ -682,6 +687,289 @@ module figuras_Gato(
 		endcase
 		
 	end
+	*/
+	
+	
+		//-------------------------------------
+	//Circuito que determina la imagen a desplegar en cada casilla 
+	//segun el valor de las entradas de las casillas 
+	//-------------------------------------
+	
+	reg[3:0] rom_equis_col;
+	reg rom_equis_bit;
+	reg cuadrante_on;
+	reg cuadrante_circ_on;
+	reg[3:0] rom_circulo_col;
+	reg rom_circulo_bit;
+	
+	always @ (*) begin
+		
+		//Caso para la primer casilla
+		case(c1_in)
+			2'b00: begin	
+				
+			end
+			
+			2'b01: begin	
+				cuadrante_circ_on = (lim_bar_V_Y_Sup<=pixel_y) && (pixel_y <= lineaH1_Y_Sup) &&
+										  (lim_bar_H_X_Izq<=pixel_x) && (pixel_x <= lineaV1_X_Izq-14);
+				rom_circulo_addr = pixel_y[5:2] - lim_bar_V_Y_Sup[5:2];
+				rom_circulo_col = pixel_x[7:2] - lim_bar_H_X_Izq[7:2];
+				rom_circulo_bit = rom_circulo_data[rom_circulo_col];
+				circulo_mostrar[0]= cuadrante_circ_on & rom_circulo_bit;
+			end
+			
+			2'b10: begin	
+				
+			end
+			
+			2'b11: begin	
+				cuadrante_on = (lim_bar_V_Y_Sup<=pixel_y) && (pixel_y <= lineaH1_Y_Sup) &&
+									(lim_bar_H_X_Izq<=pixel_x) && (pixel_x <= lineaV1_X_Izq-14);
+				rom_equis_addr = pixel_y[6:2] - lim_bar_V_Y_Sup[6:2];
+				rom_equis_col = pixel_x[6:2] - lim_bar_H_X_Izq[6:2];
+				rom_equis_bit = rom_equis_data[rom_equis_col];
+				equis_mostrar[0]= cuadrante_on & rom_equis_bit;
+			end
+		endcase
+		
+		//Caso para la segunda casilla
+			case(c2_in)
+			2'b00: begin	
+				
+			end
+			
+			2'b01: begin	
+				cuadrante_circ_on = (lim_bar_V_Y_Sup<=pixel_y) && (pixel_y <= lineaH1_Y_Sup) &&
+									(lineaV1_X_Der<=pixel_x) && (pixel_x <= lineaV2_X_Izq-14);
+				rom_circulo_addr = pixel_y[5:2] - lim_bar_V_Y_Sup[5:2];
+				rom_circulo_col = pixel_x[7:2] - lineaV1_X_Der[7:2];
+				rom_circulo_bit = rom_circulo_data[rom_circulo_col];
+				circulo_mostrar[1]= cuadrante_circ_on & rom_circulo_bit;
+			end
+			
+			2'b10: begin	
+				
+			end
+			
+			2'b11: begin	
+				cuadrante_on = (lim_bar_V_Y_Sup<=pixel_y) && (pixel_y <= lineaH1_Y_Sup) &&
+									(lineaV1_X_Der<=pixel_x) && (pixel_x <= lineaV2_X_Izq-14);
+				rom_equis_addr = pixel_y[5:2] - lim_bar_V_Y_Sup[5:2];
+				rom_equis_col = pixel_x[5:2] - lineaV1_X_Der[5:2];
+				rom_equis_bit = rom_equis_data[rom_equis_col];
+				equis_mostrar[1]= cuadrante_on & rom_equis_bit;
+			end
+		endcase
+	
+		//Caso para la tercer casilla
+			case(c3_in)
+			2'b00: begin	
+				
+			end
+			
+			2'b01: begin	
+				cuadrante_circ_on = (lim_bar_V_Y_Sup<=pixel_y) && (pixel_y <= lineaH1_Y_Sup) &&
+									(lineaV2_X_Der<=pixel_x) && (pixel_x <= lim_bar_H_X_Der-16);
+				rom_circulo_addr = pixel_y[5:2] - lim_bar_V_Y_Sup[5:2];
+				rom_circulo_col = pixel_x[7:2] - lineaV2_X_Der[7:2];
+				rom_circulo_bit = rom_circulo_data[rom_circulo_col];
+				circulo_mostrar[2]= cuadrante_circ_on & rom_circulo_bit;
+			end
+			
+			2'b10: begin	
+				
+			end
+			
+			2'b11: begin	
+				cuadrante_on = (lim_bar_V_Y_Sup<=pixel_y) && (pixel_y <= lineaH1_Y_Sup) &&
+									(lineaV2_X_Der<=pixel_x) && (pixel_x <= lim_bar_H_X_Der-16);
+				rom_equis_addr = pixel_y[5:2] - lim_bar_V_Y_Sup[5:2];
+				rom_equis_col = pixel_x[5:2] - lineaV2_X_Der[5:2];
+				rom_equis_bit = rom_equis_data[rom_equis_col];
+				equis_mostrar[2]= cuadrante_on & rom_equis_bit;
+			end
+		endcase
+		
+		//Caso para la CUARTA casilla
+			case(c4_in)
+			2'b00: begin	
+				
+			end
+			
+			2'b01: begin	
+				cuadrante_circ_on = (lineaH1_Y_Inf<=pixel_y) && (pixel_y <= lineaH2_Y_Sup) &&
+				(lim_bar_H_X_Izq<=pixel_x) && (pixel_x <= lineaV1_X_Izq-14);
+				rom_circulo_addr = pixel_y[5:2] - lineaH1_Y_Inf[5:2];
+				rom_circulo_col = pixel_x[8:2] - lim_bar_H_X_Izq[8:2];
+				rom_circulo_bit = rom_circulo_data[rom_circulo_col];
+				circulo_mostrar[3]= cuadrante_circ_on & rom_circulo_bit;
+			end
+			
+			2'b10: begin	
+				
+			end
+			
+			2'b11: begin	
+				cuadrante_on = (lineaH1_Y_Inf<=pixel_y) && (pixel_y <= lineaH2_Y_Sup) &&
+									(lim_bar_H_X_Izq<=pixel_x) && (pixel_x <= lineaV1_X_Izq-14);
+				rom_equis_addr = pixel_y[5:2] - lineaH1_Y_Inf[5:2];
+				rom_equis_col = pixel_x[5:2] - lim_bar_H_X_Izq[5:2];
+				rom_equis_bit = rom_equis_data[rom_equis_col];
+				equis_mostrar[3]= cuadrante_on & rom_equis_bit;
+			end
+		endcase
+		
+		//Caso para la quinta casilla
+			case(c5_in)
+			2'b00: begin	
+
+			end
+			
+			2'b01: begin	
+				cuadrante_circ_on = (lineaH1_Y_Inf<=pixel_y) && (pixel_y <= lineaH2_Y_Sup) &&
+									(lineaV1_X_Der<=pixel_x) && (pixel_x <= lineaV2_X_Izq-14);
+				rom_circulo_addr = pixel_y[5:2] - lineaH1_Y_Inf[5:2];
+				rom_circulo_col = pixel_x[8:2] - lineaV1_X_Der[8:2];
+				rom_circulo_bit = rom_circulo_data[rom_circulo_col];
+				circulo_mostrar[4]= cuadrante_circ_on & rom_circulo_bit;
+			end
+			
+			2'b10: begin	
+				
+			end
+			
+			2'b11: begin	
+				cuadrante_on = (lineaH1_Y_Inf<=pixel_y) && (pixel_y <= lineaH2_Y_Sup) &&
+									(lineaV1_X_Der<=pixel_x) && (pixel_x <= lineaV2_X_Izq-14);
+				rom_equis_addr = pixel_y[5:2] - lineaH1_Y_Inf[5:2];
+				rom_equis_col = pixel_x[5:2] - lineaV1_X_Der[5:2];
+				rom_equis_bit = rom_equis_data[rom_equis_col];
+				equis_mostrar[4]= cuadrante_on & rom_equis_bit;
+			end
+		endcase
+		
+				//Caso para la sexta casilla
+			case(c6_in)
+			2'b00: begin	
+				
+			end
+			
+			2'b01: begin	
+				cuadrante_circ_on = (lineaH1_Y_Inf<=pixel_y) && (pixel_y <= lineaH2_Y_Sup) &&
+									(lineaV2_X_Der<=pixel_x) && (pixel_x <= lim_bar_H_X_Der-16);
+				rom_circulo_addr = pixel_y[5:2] - lineaH1_Y_Inf[5:2];
+				rom_circulo_col = pixel_x[8:2] - lineaV2_X_Der[8:2];
+				rom_circulo_bit = rom_circulo_data[rom_circulo_col];
+				circulo_mostrar[5]= cuadrante_circ_on & rom_circulo_bit;
+			end
+			
+			2'b10: begin	
+				
+			end
+			
+			2'b11: begin	
+				cuadrante_on = (lineaH1_Y_Inf<=pixel_y) && (pixel_y <= lineaH2_Y_Sup) &&
+									(lineaV2_X_Der<=pixel_x) && (pixel_x <= lim_bar_H_X_Der-16);
+				rom_equis_addr = pixel_y[5:2] - lineaH1_Y_Inf[5:2];
+				rom_equis_col = pixel_x[5:2] - lineaV2_X_Der[5:2];
+				rom_equis_bit = rom_equis_data[rom_equis_col];
+				equis_mostrar[5]= cuadrante_on & rom_equis_bit;
+			end
+		endcase
+		
+				//Caso para la septima casilla
+			case(c7_in)
+			2'b00: begin	
+				
+			end
+			
+			2'b01: begin	
+				cuadrante_circ_on = (lineaH2_Y_Inf<=pixel_y) && (pixel_y <= lim_bar_V_Y_Inf-5) &&
+									(lim_bar_H_X_Izq<=pixel_x) && (pixel_x <= lineaV1_X_Izq-14);
+				rom_circulo_addr = pixel_y[5:2] - lineaH2_Y_Inf[5:2];
+				rom_circulo_col = pixel_x[8:2] - lim_bar_H_X_Izq[8:2];
+				rom_circulo_bit = rom_circulo_data[rom_circulo_col];
+				circulo_mostrar[6]= cuadrante_circ_on & rom_circulo_bit;
+			end
+			
+			2'b10: begin	
+				
+			end
+			
+			2'b11: begin	
+				cuadrante_on = (lineaH2_Y_Inf<=pixel_y) && (pixel_y <= lim_bar_V_Y_Inf) &&
+									(lim_bar_H_X_Izq<=pixel_x) && (pixel_x <= lineaV1_X_Izq-14);
+				rom_equis_addr = pixel_y[5:2] - lineaH2_Y_Inf[5:2];
+				rom_equis_col = pixel_x[5:2] - lim_bar_H_X_Izq[5:2];
+				rom_equis_bit = rom_equis_data[rom_equis_col];
+				equis_mostrar[6]= cuadrante_on & rom_equis_bit;
+			end
+		endcase
+		
+				//Caso para la octava casilla
+			case(c8_in)
+			2'b00: begin	
+				
+			end
+			
+			2'b01: begin	
+				cuadrante_circ_on = (lineaH2_Y_Inf<=pixel_y) && (pixel_y <= lim_bar_V_Y_Inf-5) &&
+									(lineaV1_X_Der<=pixel_x) && (pixel_x <= lineaV2_X_Izq-14);
+				rom_circulo_addr = pixel_y[5:2] - lineaH2_Y_Inf[5:2];
+				rom_circulo_col = pixel_x[8:2] - lineaV1_X_Der[8:2];
+				rom_circulo_bit = rom_circulo_data[rom_circulo_col];
+				circulo_mostrar[7]= cuadrante_circ_on & rom_circulo_bit;
+			end
+			
+			2'b10: begin	
+				
+			end
+			
+			2'b11: begin	
+				cuadrante_on = (lineaH2_Y_Inf<=pixel_y) && (pixel_y <= lim_bar_V_Y_Inf) &&
+									(lineaV1_X_Der<=pixel_x) && (pixel_x <= lineaV2_X_Izq-14);
+				rom_equis_addr = pixel_y[5:2] - lineaH2_Y_Inf[5:2];
+				rom_equis_col = pixel_x[5:2] - lineaV1_X_Der[5:2];
+				rom_equis_bit = rom_equis_data[rom_equis_col];
+				equis_mostrar[7]= cuadrante_on & rom_equis_bit;
+			end
+		endcase
+		
+				//Caso para la novena casilla
+			case(c9_in)
+			2'b00: begin	
+				
+			end
+			
+			2'b01: begin	
+				cuadrante_circ_on = (lineaH2_Y_Inf<=pixel_y) && (pixel_y <= lim_bar_V_Y_Inf-5) &&
+									(lineaV2_X_Der<=pixel_x) && (pixel_x <= lim_bar_H_X_Der-16);
+				rom_circulo_addr = pixel_y[5:2] - lineaH2_Y_Inf[5:2];
+				rom_circulo_col = pixel_x[7:2] - lineaV2_X_Der[7:2];
+				rom_circulo_bit = rom_circulo_data[rom_circulo_col];
+				circulo_mostrar[8]= cuadrante_circ_on & rom_circulo_bit;
+			end
+			
+			2'b10: begin	
+				
+			end
+			
+			2'b11: begin	
+				cuadrante_on = (lineaH2_Y_Inf<=pixel_y) && (pixel_y <= lim_bar_V_Y_Inf) &&
+									(lineaV2_X_Der<=pixel_x) && (pixel_x <= lim_bar_H_X_Der-16);
+				rom_equis_addr = pixel_y[5:2] - lineaH2_Y_Inf[5:2];
+				rom_equis_col = pixel_x[5:2] - lineaV2_X_Der[5:2];
+				rom_equis_bit = rom_equis_data[rom_equis_col];
+				equis_mostrar[8]= cuadrante_on & rom_equis_bit;
+			end
+		endcase
+	
+	end
+	
+	
+	
+	
 	
 	//------------------------------------
 	// Circuito multiplexor
