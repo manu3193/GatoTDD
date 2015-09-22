@@ -73,21 +73,21 @@ module Gato_Top(
 	assign vsync = ~vsync_out;
 	
 	Sincronizador debouncer (
-	._clk_(clk_sys), 
-	.boton_arriba_in(boton_arriba), 
-	.boton_abajo_in(boton_abajo), 
-	.boton_izq_in(boton_izq), 
-	.boton_der_in(boton_der), 
-	.boton_elige_in(boton_elige),
-	.boton_arriba_out(boton_arriba_sync), 
-	.boton_abajo_out(boton_abajo_sync), 
-	.boton_izq_out(boton_izq_sync), 
-	.boton_der_out(boton_der_sync), 
-	.boton_elige_out(boton_elige_sync)
+		._clk_(clk_VGA), 
+		.boton_arriba_in(boton_arriba), 
+		.boton_abajo_in(boton_abajo), 
+		.boton_izq_in(boton_izq), 
+		.boton_der_in(boton_der), 
+		.boton_elige_in(boton_elige),
+		.boton_arriba_out(boton_arriba_sync), 
+		.boton_abajo_out(boton_abajo_sync), 
+		.boton_izq_out(boton_izq_sync), 
+		.boton_der_out(boton_der_sync), 
+		.boton_elige_out(boton_elige_sync)
 	);
 	
 	Controlador_Gato controlador_juego (
-		.clk(clk_sys), 
+		.clk(clk_VGA), 
 		.reset_all(reset_all), 
 		.reset_game(reset_game), 
 		.cuadro(cuadro), 
@@ -95,6 +95,7 @@ module Gato_Top(
 		.horizontal(horizontal), 
 		.cruzada(cruzada), 
 		.state(state), 
+		
 		.c1_out_registro(c1),
 		.c2_out_registro(c2),
 		.c3_out_registro(c3),
@@ -104,11 +105,13 @@ module Gato_Top(
 		.c7_out_registro(c7),
 		.c8_out_registro(c8),
 		.c9_out_registro(c9),
+		
 		.boton_arriba_reg(boton_arriba_sync), 
 		.boton_abajo_reg(boton_abajo_sync), 
 		.boton_izq_reg(boton_izq_sync), 
 		.boton_der_reg(boton_der_sync), 
 		.boton_elige_reg(boton_elige_sync), 
+		
 		.turno_p1_wire(turno_p1_wire), 
 		.turno_p2_wire(turno_p2_wire), 
 		.win_game_wire(win_game), 

@@ -43,276 +43,76 @@ module Selector_Casillas(
 	
 	always @(posedge clk)
 		begin
-		
-		case (cuadro)
-		
-			4'b0001:
+			if ((boton_abajo == 1'b1) & (cuadro >= 4'b0001) & (cuadro <= 4'b0110))
+				cuadro = cuadro + 4'b0011;
+				
+			else if ((boton_arriba == 1'b1) & (cuadro >= 4'b0100) & (cuadro <= 4'b1001))
+				cuadro = cuadro - 4'b0011;
+				
+			else if ((boton_izq == 1'b1) & (cuadro > 4'b0001) & (cuadro <= 4'b1001))
+				cuadro = cuadro - 4'b0001;
+				
+			else if ((boton_der == 1'b1) & (cuadro >= 4'b0001) & (cuadro < 4'b1001))
+				cuadro = cuadro + 4'b0001;
+				
+			else if ((boton_elige == 1'b1) & (cuadro >= 4'b0001) & (cuadro <= 4'b1001))
 				begin
-				if (boton_arriba == 1'b1)
-					cuadro <= 4'b0001;
-				else if (boton_abajo == 1'b1)
-					cuadro <= 4'b0100;
-				else if (boton_izq == 1'b1)
-					cuadro <= 4'b0001;
-				else if (boton_der == 1'b1)
-					cuadro <= 4'b0010;
-				else if (boton_elige == 1'b1)
-					nextCuadro <= cuadro;
-					cuadro <= 4'b1010;
-				end
-			
-			4'b0010:
-				begin
-				if (boton_arriba == 1'b1)
-					cuadro <= 4'b0010;
-				else if (boton_abajo == 1'b1)
-					cuadro <= 4'b0101;
-				else if (boton_izq == 1'b1)
-					cuadro <= 4'b0001;
-				else if (boton_der == 1'b1)
-					cuadro <= 4'b0011;
-				else if (boton_elige == 1'b1)
-					nextCuadro <= cuadro;
-					cuadro <= 4'b1010;
-				end
-			
-			4'b0011:
-				begin
-				if (boton_arriba == 1'b1)
-					cuadro <= 4'b0011;
-				else if (boton_abajo == 1'b1)
-					cuadro <= 4'b0110;
-				else if (boton_izq == 1'b1)
-					cuadro <= 4'b0010;
-				else if (boton_der == 1'b1)
-					cuadro <= 4'b0011;
-				else if (boton_elige == 1'b1)
-					nextCuadro <= cuadro;
-					cuadro <= 4'b1010;
-				end
-			
-			4'b0100:
-				begin
-				if (boton_arriba == 1'b1)
-					cuadro <= 4'b0001;
-				else if (boton_abajo == 1'b1)
-					cuadro <= 4'b0111;
-				else if (boton_izq == 1'b1)
-					cuadro <= 4'b0100;
-				else if (boton_der == 1'b1)
-					cuadro <= 4'b0101;
-				else if (boton_elige == 1'b1)
-					nextCuadro <= cuadro;
-					cuadro <= 4'b1010;
-				end
-			
-			4'b0101:
-				begin
-				if (boton_arriba == 1'b1)
-					cuadro <= 4'b0010;
-				else if (boton_abajo == 1'b1)
-					cuadro <= 4'b1000;
-				else if (boton_izq == 1'b1)
-					cuadro <= 4'b0100;
-				else if (boton_der == 1'b1)
-					cuadro <= 4'b0110;
-				else if (boton_elige == 1'b1)
-					nextCuadro <= cuadro;
-					cuadro <= 4'b1010;
-				end
-			
-			4'b0110:
-				begin
-				if (boton_arriba == 1'b1)
-					cuadro <= 4'b0011;
-				else if (boton_abajo == 1'b1)
-					cuadro <= 4'b1001;
-				else if (boton_izq == 1'b1)
-					cuadro <= 4'b0101;
-				else if (boton_der == 1'b1)
-					cuadro <= 4'b0110;
-				else if (boton_elige == 1'b1)
-					nextCuadro <= cuadro;
-					cuadro <= 4'b1010;
-				end
-			
-			4'b0111:
-				begin
-				if (boton_arriba)
-					cuadro <= 4'b0100;
-				else if (boton_abajo == 1'b1)
-					cuadro <= 4'b0111;
-				else if (boton_izq == 1'b1)
-					cuadro <= 4'b0111;
-				else if (boton_der == 1'b1)
-					cuadro <= 4'b1000;
-				else if (boton_elige == 1'b1)
-					nextCuadro <= cuadro;
-					cuadro <= 4'b1010;
-				end
-			
-			4'b1000:
-				begin
-				if (boton_arriba == 1'b1)
-					cuadro <= 4'b0101;
-				else if (boton_abajo == 1'b1)
-					cuadro <= 4'b1000;
-				else if (boton_izq == 1'b1)
-					cuadro <= 4'b0111;
-				else if (boton_der == 1'b1)
-					cuadro <= 4'b1001;
-				else if (boton_elige == 1'b1)
-					nextCuadro <= cuadro;
-					cuadro <= 4'b1010;
-				end
-			
-			4'b1001:
-				begin
-				if (boton_arriba == 1'b1)
-					cuadro <= 4'b0110;
-				else if (boton_abajo == 1'b1)
-					cuadro <= 4'b1000;
-				else if (boton_izq == 1'b1)
-					cuadro <= 4'b1000;
-				else if (boton_der == 1'b1)
-					cuadro <= 4'b1001;
-				else if (boton_elige == 1'b1)
-					nextCuadro <= cuadro;
-					cuadro <= 4'b1010;
-				end
-			
-			4'b1010:
-				begin
-					if (turno_p1 == 1'b1 & turno_p2 == 1'b0)
-						begin
-						//Guarda en los registros
-						if (nextCuadro == 4'b0001)
-							guarda_c1 <= 2'b11;
-						else if (nextCuadro == 4'b0010)
-							guarda_c2 <= 2'b11;
-						else if (nextCuadro == 4'b0011)
-							guarda_c3 <= 2'b11;
-						else if (nextCuadro == 4'b0100)
-							guarda_c4 <= 2'b11;
-						else if (nextCuadro == 4'b0101)
-							guarda_c5 <= 2'b11;
-						else if (nextCuadro == 4'b0110)
-							guarda_c6 <= 2'b11;
-						else if (nextCuadro == 4'b0111)
-							guarda_c7 <= 2'b11;
-						else if (nextCuadro == 4'b1000)
-							guarda_c8 <= 2'b11;
-						else if (nextCuadro == 4'b1001)
-							guarda_c9 <= 2'b11;
-						p1_mm <= 1'b1;
-						p2_mm <= 1'b0;
-						end
-					else if (turno_p1 == 1'b0 & turno_p2 == 1'b1)
-						begin
-						//Guarda en los registros
-						if (nextCuadro == 4'b0001)
-							guarda_c1 <= 2'b01;
-						else if (nextCuadro == 4'b0010)
-							guarda_c2 <= 2'b01;
-						else if (nextCuadro == 4'b0011)
-							guarda_c3 <= 2'b01;
-						else if (nextCuadro == 4'b0100)
-							guarda_c4 <= 2'b01;
-						else if (nextCuadro == 4'b0101)
-							guarda_c5 <= 2'b01;
-						else if (nextCuadro == 4'b0110)
-							guarda_c6 <= 2'b01;
-						else if (nextCuadro == 4'b0111)
-							guarda_c7 <= 2'b01;
-						else if (nextCuadro == 4'b1000)
-							guarda_c8 <= 2'b01;
-						else if (nextCuadro == 4'b1001)
-							guarda_c9 <= 2'b01;
-						p1_mm <= 1'b0;
-						p2_mm <= 1'b1;
-						end
-					cuadro <= 4'b0101;
+				if (turno_p1 == 1'b1 & turno_p2 == 1'b0)
+					begin
+					//Guarda en los registros
+					if (cuadro == 4'b0001)
+						guarda_c1 = 2'b11;
+					else if (cuadro == 4'b0010)
+						guarda_c2 = 2'b11;
+					else if (cuadro == 4'b0011)
+						guarda_c3 = 2'b11;
+					else if (cuadro == 4'b0100)
+						guarda_c4 = 2'b11;
+					else if (cuadro == 4'b0101)
+						guarda_c5 = 2'b11;
+					else if (cuadro == 4'b0110)
+						guarda_c6 = 2'b11;
+					else if (cuadro == 4'b0111)
+						guarda_c7 = 2'b11;
+					else if (cuadro == 4'b1000)
+						guarda_c8 = 2'b11;
+					else if (cuadro == 4'b1001)
+						guarda_c9 = 2'b11;
+					//pone al jugador en movimiento
+					//equis <= cuadro;
+					p1_mm = 1'b1;
+					p2_mm = 1'b0;
 					end
-					
-				default: nextCuadro <= 4'b0101;
-		
-		endcase
-		
-		end
-	
-	/*always @(boton_elige, boton_arriba, boton_abajo, boton_izq, boton_der)
-		begin
-			if (cuadro >= 4'b0001 & cuadro <= 4'b1001)
+				else if (turno_p1 == 1'b0 & turno_p2 == 1'b1)
+					begin
+					//Guarda en los registros
+					if (cuadro == 4'b0001)
+						guarda_c1 = 2'b01;
+					else if (cuadro == 4'b0010)
+						guarda_c2 = 2'b01;
+					else if (cuadro == 4'b0011)
+						guarda_c3 = 2'b01;
+					else if (cuadro == 4'b0100)
+						guarda_c4 = 2'b01;
+					else if (cuadro == 4'b0101)
+						guarda_c5 = 2'b01;
+					else if (cuadro == 4'b0110)
+						guarda_c6 = 2'b01;
+					else if (cuadro == 4'b0111)
+						guarda_c7 = 2'b01;
+					else if (cuadro == 4'b1000)
+						guarda_c8 = 2'b01;
+					else if (cuadro == 4'b1001)
+						guarda_c9 = 2'b01;
+					//pone al jugador en movimiento
+					//circulo <= cuadro;
+					p1_mm = 1'b0;
+					p2_mm = 1'b1;
+				end
+			else 
 				begin
-					if (boton_abajo == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
-						cuadro = cuadro + 4'b0011;
-						
-					if (boton_arriba == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
-						cuadro = cuadro - 4'b0011;
-						
-					if (boton_izq == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
-						cuadro = cuadro - 4'b0001;
-						
-					if (boton_der == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
-						cuadro = cuadro + 4'b0001;
-						
-					if (boton_elige == 1'b1 & cuadro >= 4'b0001 & cuadro <= 4'b1001)
-						begin
-						if (turno_p1 == 1'b1 & turno_p2 == 1'b0)
-							begin
-							//Guarda en los registros
-							if (cuadro == 4'b0001)
-								guarda_c1 = 2'b11;
-							else if (cuadro == 4'b0010)
-								guarda_c2 = 2'b11;
-							else if (cuadro == 4'b0011)
-								guarda_c3 = 2'b11;
-							else if (cuadro == 4'b0100)
-								guarda_c4 = 2'b11;
-							else if (cuadro == 4'b0101)
-								guarda_c5 = 2'b11;
-							else if (cuadro == 4'b0110)
-								guarda_c6 = 2'b11;
-							else if (cuadro == 4'b0111)
-								guarda_c7 = 2'b11;
-							else if (cuadro == 4'b1000)
-								guarda_c8 = 2'b11;
-							else if (cuadro == 4'b1001)
-								guarda_c9 = 2'b11;
-							//pone al jugador en movimiento
-							//equis <= cuadro;
-							p1_mm <= 1'b1;
-							p2_mm <= 1'b0;
-							end
-						else if (turno_p1 == 1'b0 & turno_p2 == 1'b1)
-							begin
-							//Guarda en los registros
-							if (cuadro == 4'b0001)
-								guarda_c1 = 2'b01;
-							else if (cuadro == 4'b0010)
-								guarda_c2 = 2'b01;
-							else if (cuadro == 4'b0011)
-								guarda_c3 = 2'b01;
-							else if (cuadro == 4'b0100)
-								guarda_c4 = 2'b01;
-							else if (cuadro == 4'b0101)
-								guarda_c5 = 2'b01;
-							else if (cuadro == 4'b0110)
-								guarda_c6 = 2'b01;
-							else if (cuadro == 4'b0111)
-								guarda_c7 = 2'b01;
-							else if (cuadro == 4'b1000)
-								guarda_c8 = 2'b01;
-							else if (cuadro == 4'b1001)
-								guarda_c9 = 2'b01;
-							//pone al jugador en movimiento
-							//circulo <= cuadro;
-							p1_mm = 1'b0;
-							p2_mm = 1'b1;
-							end
-						end
-				end					
-		end*/
-
-
+				cuadro = 4'b0101;
+				end
+			end	
+		end
 endmodule
