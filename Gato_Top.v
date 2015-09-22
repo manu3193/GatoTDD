@@ -73,7 +73,7 @@ module Gato_Top(
 	assign vsync = ~vsync_out;
 	
 	Sincronizador debouncer (
-		._clk_(clk_VGA), 
+		._clk_(clk_sys), 
 		.boton_arriba_in(boton_arriba), 
 		.boton_abajo_in(boton_abajo), 
 		.boton_izq_in(boton_izq), 
@@ -87,7 +87,7 @@ module Gato_Top(
 	);
 	
 	Controlador_Gato controlador_juego (
-		.clk(clk_VGA), 
+		.clk(clk_sys), 
 		.reset_all(reset_all), 
 		.reset_game(reset_game), 
 		.cuadro(cuadro), 
