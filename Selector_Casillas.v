@@ -41,7 +41,7 @@ module Selector_Casillas(
 	
 	initial cuadro <= 4'b0101;
 	
-	always @(posedge clk)
+	always @(posedge clk)//posedge boton_arriba, posedge boton_abajo, posedge boton_izq, posedge boton_der, posedge boton_elige)
 		begin
 			if ((boton_abajo == 1'b1) & (cuadro >= 4'b0001) & (cuadro <= 4'b0110))
 				cuadro = cuadro + 4'b0011;
@@ -49,10 +49,10 @@ module Selector_Casillas(
 			else if ((boton_arriba == 1'b1) & (cuadro >= 4'b0100) & (cuadro <= 4'b1001))
 				cuadro = cuadro - 4'b0011;
 				
-			else if ((boton_izq == 1'b1) & (cuadro > 4'b0001) & (cuadro <= 4'b1001))
+			else if ((boton_izq == 1'b1) & (cuadro > 4'b0001) & (cuadro <= 4'b1001) & (cuadro!=4'b0111) & (cuadro!=4'b0100))
 				cuadro = cuadro - 4'b0001;
 				
-			else if ((boton_der == 1'b1) & (cuadro >= 4'b0001) & (cuadro < 4'b1001))
+			else if ((boton_der == 1'b1) & (cuadro >= 4'b0001) & (cuadro < 4'b1001) & (cuadro!=4'b0011) & (cuadro!=4'b0110))
 				cuadro = cuadro + 4'b0001;
 				
 			else if ((boton_elige == 1'b1) & (cuadro >= 4'b0001) & (cuadro <= 4'b1001))
@@ -111,6 +111,6 @@ module Selector_Casillas(
 					p2_mm = 1'b1;
 					cuadro = 4'b0101;
 					end
-			end	
+			end
 		end
 endmodule

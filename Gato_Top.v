@@ -72,6 +72,7 @@ module Gato_Top(
 	assign hsync = ~hsync_out;
 	assign vsync = ~vsync_out;
 	
+	
 	Sincronizador debouncer (
 		._clk_(clk_sys), 
 		.boton_arriba_in(boton_arriba), 
